@@ -1,0 +1,71 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e3e99e0515726b1a7a972d14fa77f774f5c37a864e73cd80f08ed64e914a4f10
+
+name:           ntmuxp
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/srghma/ntmuxp#readme>
+homepage:       https://github.com/srghma/ntmuxp#readme
+bug-reports:    https://github.com/srghma/ntmuxp/issues
+author:         Sergey Homa <srghma@gmail.com>
+maintainer:     Sergey Homa <srghma@gmail.com>
+license:        Apache-2.0
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/srghma/ntmuxp
+
+executable ntmuxp
+  main-is: Main.hs
+  other-modules:
+      Paths_ntmuxp
+  hs-source-dirs:
+      cli
+  default-extensions: BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveGeneric DeriveLift FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PackageImports QuasiQuotes RecordWildCards ScopedTypeVariables StandaloneDeriving TemplateHaskell TupleSections TypeApplications TypeFamilies ViewPatterns
+  ghc-options: -Weverything -Wno-missing-exported-signatures -Wno-missing-import-lists -Wno-missed-specialisations -Wno-all-missed-specialisations -Wno-unsafe -Wno-safe -Wno-missing-local-signatures -Wno-monomorphism-restriction -Wno-missing-export-lists
+  build-depends:
+      base
+    , bytestring
+    , directory
+    , protolude
+    , system-filepath
+    , temporary
+    , text
+    , turtle
+  default-language: Haskell2010
+
+test-suite spec
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Main
+      Paths_ntmuxp
+  hs-source-dirs:
+      test
+      cli
+  default-extensions: BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveGeneric DeriveLift FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PackageImports QuasiQuotes RecordWildCards ScopedTypeVariables StandaloneDeriving TemplateHaskell TupleSections TypeApplications TypeFamilies ViewPatterns
+  ghc-options: -Weverything -Wno-missing-exported-signatures -Wno-missing-import-lists -Wno-missed-specialisations -Wno-all-missed-specialisations -Wno-unsafe -Wno-safe -Wno-missing-local-signatures -Wno-monomorphism-restriction -Wno-missing-export-lists
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      QuickCheck
+    , base
+    , bytestring
+    , directory
+    , hspec ==2.*
+    , protolude
+    , quickcheck-instances
+    , system-filepath
+    , temporary
+    , text
+    , turtle
+  default-language: Haskell2010

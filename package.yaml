@@ -1,0 +1,87 @@
+name:    ntmuxp
+version: 0.1.0.0
+github:  "srghma/ntmuxp"
+license: Apache-2.0
+author:  Sergey Homa <srghma@gmail.com>
+
+extra-source-files:
+  - README.md
+  - ChangeLog.md
+
+description: Please see the README on GitHub at <https://github.com/srghma/ntmuxp#readme>
+
+# FROM https://medium.com/mercury-bank/enable-all-the-warnings-a0517bc081c3
+ghc-options:
+  # For details on warnings: https://downloads.haskell.org/~ghc/master/users-guide/using-warnings.html
+  # This list taken from https://medium.com/mercury-bank/enable-all-the-warnings-a0517bc081c3
+  # Enable all warnings with -Weverything, then disable the ones we don’t care about
+  - -Weverything
+  - -Wno-missing-exported-signatures # missing-exported-signatures turns off the more strict -Wmissing-signatures. See https://ghc.haskell.org/trac/ghc/ticket/14794#ticket
+  - -Wno-missing-import-lists # Requires explicit imports of _every_ function (e.g. ‘$’); too strict
+  - -Wno-missed-specialisations # When GHC can’t specialize a polymorphic function. No big deal and requires fixing underlying libraries to solve.
+  - -Wno-all-missed-specialisations # See missed-specialisations
+  - -Wno-unsafe # Don’t use Safe Haskell warnings
+  - -Wno-safe # Don’t use Safe Haskell warnings
+  - -Wno-missing-local-signatures # Warning for polymorphic local bindings; nothing wrong with those.
+  - -Wno-monomorphism-restriction # Don’t warn if the monomorphism restriction is used
+
+  # TODO: fix these
+  - -Wno-missing-export-lists
+
+default-extensions:
+  - BangPatterns
+  - ConstraintKinds
+  - DataKinds
+  - DefaultSignatures
+  - DeriveDataTypeable
+  - DeriveGeneric
+  - DeriveLift
+  - FlexibleContexts
+  - FlexibleInstances
+  - FunctionalDependencies
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - InstanceSigs
+  - LambdaCase
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - NamedFieldPuns
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - PackageImports
+  - QuasiQuotes
+  - RecordWildCards
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - TemplateHaskell
+  - TupleSections
+  - TypeApplications
+  - TypeFamilies
+  - ViewPatterns
+
+dependencies:
+  - base
+  - protolude
+  - text
+  - turtle
+  - system-filepath # this lib is deprecated, but turtle uses it anyway https://github.com/Gabriel439/Haskell-Turtle-Library/issues/54
+  - directory
+  - bytestring
+  - temporary
+
+executable:
+  main: Main.hs
+  source-dirs:
+    - cli
+
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs:
+      - test
+      - cli
+    dependencies:
+      - hspec == 2.*
+      - QuickCheck
+      - quickcheck-instances
+    build-tools: hspec-discover

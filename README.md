@@ -4,7 +4,7 @@
 
 Example usage
 
-With `test.tmuxp.nix` (file that should compile to json using `--strict --eval yourfile.tmuxp.nix --json`)
+With `test.tmuxp.nix` (file that should compile to json using `nix-instantiate --json --strict --eval yourfile.tmuxp.nix`)
 
 ```nix
 let

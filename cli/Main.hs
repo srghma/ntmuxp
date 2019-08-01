@@ -48,9 +48,11 @@ main = do
           sh $ inproc "nix-instantiate" ["--strict", "--json", "--eval", toS arg] "" & inproc "json_reformat" [] & output (decodeString tempFilePath)
 
           PP.putDoc
-            (   blue (PP.pretty arg)
+            (   green "[ntmuxp]"
+            <+> blue (PP.pretty arg)
             <+> "was json transformed to"
             <+> blue (PP.pretty tempFilePath)
+            <+> PP.hardline
             )
 
           return tempFilePath
@@ -63,3 +65,4 @@ main = do
   System.Posix.Process.executeFile "tmuxp" True args' Nothing
     where
       blue = PP.annotate $ PP.color PP.Blue
+      green = PP.annotate $ PP.color PP.Green

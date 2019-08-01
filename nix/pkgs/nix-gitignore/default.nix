@@ -12,5 +12,6 @@ let
     inherit owner repo;
     inherit (revData) rev sha256;
   };
+  # src = ~/projects/nix-gitignore/default.nix;
 in
   import src { inherit lib runCommand; }

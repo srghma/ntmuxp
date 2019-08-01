@@ -8,7 +8,16 @@ with pkgs.haskell.lib;
 ((import ./stack2nix.nix { inherit pkgs; }).override {
   overrides = self: super: {
     ntmuxp = justStaticExecutables (overrideCabal super.ntmuxp (old: {
-      src = gitignore.gitignoreSource [./.gitignore ".git"] ./.;
+      src = let
+        additionalGitignore = ''
+          nix
+          docs
+          Makefile
+          README.md
+          *.nix
+        '';
+      in
+        gitignore.gitignoreSource [./.gitignore additionalGitignore] ./.;
 
       buildTools = old.buildTools or [] ++ [ makeWrapper ];
 

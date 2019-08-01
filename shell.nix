@@ -6,7 +6,7 @@
   #
   # we are using second option
 
-  ghc ? pkgs.haskell.packages.ghc865 # stack expect this file to define a function of exactly one argument that should be called ghc
+  ghc ? pkgs.haskell.compiler.ghc865 # stack expect this file to define a function of exactly one argument that should be called ghc
 }:
 
 

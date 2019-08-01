@@ -68,6 +68,9 @@ dependencies:
   - directory
   - bytestring
   - temporary
+  - unix
+  - prettyprinter
+  - prettyprinter-ansi-terminal
 
 executable:
   main: Main.hs

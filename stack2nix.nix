@@ -24395,8 +24395,9 @@ inherit (pkgs) libjpeg; inherit (pkgs) libpng; inherit (pkgs) zlib;};
            license = stdenv.lib.licenses.bsd3;
          }) {};
       "ntmuxp" = callPackage
-        ({ mkDerivation, base, bytestring, directory, hpack, protolude
-         , stdenv, system-filepath, temporary, text, turtle
+        ({ mkDerivation, base, bytestring, directory, hpack, prettyprinter
+         , prettyprinter-ansi-terminal, protolude, stdenv, system-filepath
+         , temporary, text, turtle, unix
          }:
          mkDerivation {
            pname = "ntmuxp";
@@ -24406,8 +24407,8 @@ inherit (pkgs) libjpeg; inherit (pkgs) libpng; inherit (pkgs) zlib;};
            isExecutable = true;
            libraryToolDepends = [ hpack ];
            executableHaskellDepends = [
-             base bytestring directory protolude system-filepath temporary text
-             turtle
+             base bytestring directory prettyprinter prettyprinter-ansi-terminal
+             protolude system-filepath temporary text turtle unix
            ];
            doHaddock = false;
            doCheck = false;

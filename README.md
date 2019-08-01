@@ -35,4 +35,4 @@ with pkgs;
 ntmuxp load test.tmuxp.nix
 ```
 
-will compile nix file to json, output it to /tmp/filenamePROCNUM-random.json, and run command `tmuxp load /tmp/filenamePROCNUM-random.json`
+will compile nix file to json, output it to `/tmp/filenamePROCNUM-random.json`, and run command `tmuxp load /tmp/filenamePROCNUM-random.json`

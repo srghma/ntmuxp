@@ -20,6 +20,8 @@ import "prettyprinter" Data.Text.Prettyprint.Doc                               (
 import qualified "prettyprinter" Data.Text.Prettyprint.Doc                               as PP
 import qualified "prettyprinter-ansi-terminal" Data.Text.Prettyprint.Doc.Render.Terminal as PP
 
+-- NOTE: shell/proc doesnt mess with output, inshell/inproc - does (https://github.com/Gabriel439/Haskell-Turtle-Library/issues/29#issuecomment-74905298)
+
 main :: IO ()
 main = do
   args <- getArgs
@@ -39,23 +41,31 @@ main = do
 
           let baseName :: String.String = toS . encodeString $ Path.basename originalPath
 
-          (tempFilePath, handle) <- Temp.openTempFile tempDirPath (baseName <> ".json")
+          -- putText $ Text.unwords ["nix-build", "--no-out-link", "--verbose", "-E", "'with import <nixpkgs> {}; writeTextFile { name = \""<> toS baseName <> ".json\"; text = builtins.toJSON (import "<> toS arg <>"); }'"]
 
-          System.IO.hClose handle
+          -- fixes https://stackoverflow.com/questions/57302668/how-to-nix-instantiate-expression-to-json-string-and-build-realize-all-its-depe
+          (exitCode, outputFile :: Text) <- procStrict "nix-build" ["--no-out-link", "--quiet", "-E", "with import <nixpkgs> {}; writeTextFile { name = \""<> toS baseName <> ".json\"; text = builtins.toJSON (import "<> toS arg <>"); }"] ""
 
-          -- shell/proc doesnt mess with output, inshell/inproc - does (https://github.com/Gabriel439/Haskell-Turtle-Library/issues/29#issuecomment-74905298)
-          -- nix-instantiate --strict --eval $i --json | json_reformat > $tempFilePath
-          sh $ inproc "nix-instantiate" ["--strict", "--json", "--eval", toS arg] "" & inproc "json_reformat" [] & output (decodeString tempFilePath)
+          let outputFile' = Text.strip outputFile
 
-          PP.putDoc
-            (   green "[ntmuxp]"
-            <+> blue (PP.pretty arg)
-            <+> "was json transformed to"
-            <+> blue (PP.pretty tempFilePath)
-            <+> PP.hardline
-            )
+          case exitCode of
+            ExitFailure int -> exitWith (ExitFailure int)
+            ExitSuccess -> do
+              isExists <- Directory.doesFileExist (toS outputFile')
 
-          return tempFilePath
+              unless isExists (do
+                putStr $ "File " <> outputFile' <> " doesn't exist, whaaat"
+                exitFailure)
+
+              PP.putDoc
+                (   green "[ntmuxp]"
+                <+> blue (PP.pretty arg)
+                <+> "was build to"
+                <+> blue (PP.pretty outputFile')
+                <+> PP.hardline
+                )
+
+              return (toS outputFile')
         else
           return arg
         ) args
